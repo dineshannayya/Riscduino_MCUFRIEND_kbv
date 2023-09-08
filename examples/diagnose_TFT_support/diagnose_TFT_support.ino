@@ -1,5 +1,5 @@
-#include <MCUFRIEND_kbv.h>
-MCUFRIEND_kbv tft;
+#include <Riscduino_MCUFRIEND_kbv.h>
+Riscduino_MCUFRIEND_kbv tft;
 
 // Assign human-readable names to some common 16-bit color values:
 #define BLACK   0x0000
@@ -12,7 +12,7 @@ MCUFRIEND_kbv tft;
 #define WHITE   0xFFFF
 #define GRAY    0x8410
 
-uint16_t version = MCUFRIEND_KBV_H_;
+uint16_t version = RISCDUINO_MCUFRIEND_KBV_H_;
 
 void setup()
 {
@@ -25,7 +25,7 @@ void setup()
     Serial.print(F("tft.readID() finds: ID = 0x"));
     Serial.println(ID, HEX);
     Serial.println(F(""));
-	Serial.print(F("MCUFRIEND_kbv version: "));
+	Serial.print(F("Riscduino_MCUFRIEND_kbv version: "));
     Serial.print(version/100);
 	Serial.print(F("."));
     Serial.print((version / 10) % 10);
@@ -55,7 +55,7 @@ void setup()
     if (tft.width() == 0) {
         Serial.println(F("This ID is not supported"));
         Serial.println(F("look up ID in extras/mcufriend_how_to.txt"));
-        Serial.println(F("you may need to edit MCUFRIEND_kbv.cpp"));
+        Serial.println(F("you may need to edit Riscduino_MCUFRIEND_kbv.cpp"));
         Serial.println(F("to enable support for this ID"));
         Serial.println(F("e.g. #define SUPPORT_8347D"));
         Serial.println(F(""));
@@ -119,7 +119,7 @@ void loop()
     tft.print(colorname[aspect]);
     tft.setCursor(40, 160);
     tft.setTextSize(1);
-    tft.print("MCUFRIEND_KBV_H_ = ");
+    tft.print("RISCDUINO_MCUFRIEND_KBV_H_ = ");
     tft.print(version);
     if (++aspect > 3) aspect = 0;
     delay(5000);

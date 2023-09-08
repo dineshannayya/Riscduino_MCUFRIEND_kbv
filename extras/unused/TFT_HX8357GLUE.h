@@ -10,9 +10,11 @@
 #define HX8357_WHITE   0xFFFF
 
 //#include <Adafruit_GFX.h>    // Core graphics library
-#include <MCUFRIEND_kbv.h> // Hardware-specific library
+#include <Riscduino_MCUFRIEND_kbv.h> // Hardware-specific library
 #if !defined(AVR)
 #include <avr/dtostrf.h>
+#else 
+#include <dtostrf.h>
 #endif
 
 #include <Fonts/FreeSans9pt7b.h>
@@ -54,7 +56,7 @@ const GFXfont *Fonts[] = {
 
 #define MC_DATUM        4
 
-class TFT_HX8357GLUE : public MCUFRIEND_kbv
+class TFT_HX8357GLUE : public Riscduino_MCUFRIEND_kbv
 {
     public:
         TFT_HX8357GLUE() {}
@@ -63,41 +65,41 @@ class TFT_HX8357GLUE : public MCUFRIEND_kbv
 		}
 		void init(void)
         {
-            MCUFRIEND_kbv::reset();
-			_ID = MCUFRIEND_kbv::readID();
+            Riscduino_MCUFRIEND_kbv::reset();
+			_ID = Riscduino_MCUFRIEND_kbv::readID();
             if (_ID == 0x00D3 || _ID == 0xD3D3)
 			   _ID = 0x9486;
-            MCUFRIEND_kbv::begin(_ID);
-            MCUFRIEND_kbv::setRotation(1);
+            Riscduino_MCUFRIEND_kbv::begin(_ID);
+            Riscduino_MCUFRIEND_kbv::setRotation(1);
             _first = true;
         }
         void setWindow(int16_t x0, int16_t y0, int16_t x1, int16_t y1)
         {
-            MCUFRIEND_kbv::setAddrWindow(x0, y0, x1, y1);
+            Riscduino_MCUFRIEND_kbv::setAddrWindow(x0, y0, x1, y1);
             _first = true;
         }
 
         void pushColors(uint8_t *data, uint16_t len)
         {
-            MCUFRIEND_kbv::pushColors((uint8_t*)data, len, _first);
+            Riscduino_MCUFRIEND_kbv::pushColors((uint8_t*)data, len, _first);
             _first = false;
         }
 
         void pushColors(uint16_t *data, uint8_t len)
         {
-            MCUFRIEND_kbv::pushColors((uint16_t*)data, len, _first);
+            Riscduino_MCUFRIEND_kbv::pushColors((uint16_t*)data, len, _first);
             _first = false;
         }
 
         void pushColors(uint16_t *data, uint16_t len, int first)
         {
-            MCUFRIEND_kbv::pushColors((uint16_t*)data, len, first);
+            Riscduino_MCUFRIEND_kbv::pushColors((uint16_t*)data, len, first);
         }
 
         void pushColor(uint16_t color)
         {
             uint16_t c = color;
-			MCUFRIEND_kbv::pushColors(&c, 1, _first);
+			Riscduino_MCUFRIEND_kbv::pushColors(&c, 1, _first);
             _first = false;
         }
 
@@ -110,16 +112,16 @@ class TFT_HX8357GLUE : public MCUFRIEND_kbv
         {
             
             const GFXfont *f = Fonts[idx];
-            MCUFRIEND_kbv::setFont(f);
-//            MCUFRIEND_kbv::setCursor(x, y + f->glyph->height);
+            Riscduino_MCUFRIEND_kbv::setFont(f);
+//            Riscduino_MCUFRIEND_kbv::setCursor(x, y + f->glyph->height);
 
-            MCUFRIEND_kbv::setCursor(x, y);
+            Riscduino_MCUFRIEND_kbv::setCursor(x, y);
         }
         
         void setTextFont(uint8_t font)
         {
             _font = font;
-            MCUFRIEND_kbv::setFont(Fonts[_font]);
+            Riscduino_MCUFRIEND_kbv::setFont(Fonts[_font]);
         }
 
         int16_t drawNumber(long long_num, int16_t poX, int16_t poY, int16_t idx)
@@ -144,7 +146,7 @@ class TFT_HX8357GLUE : public MCUFRIEND_kbv
             setFont(Fonts[_font = idx]);
             getTextBounds(string, poX, poY, &x1, &y1, &w, &h);
             fillRect(x1, y1 + h, w, h, 0x0000);
-            MCUFRIEND_kbv::setCursor(poX, poY + h);
+            Riscduino_MCUFRIEND_kbv::setCursor(poX, poY + h);
             print(string);
             return w;
         }
@@ -157,7 +159,7 @@ class TFT_HX8357GLUE : public MCUFRIEND_kbv
             poX -= w/2;
 			x1 -= w/2;
 			fillRect(x1, y1 + h, w, h, 0x0000);
-            MCUFRIEND_kbv::setCursor(poX, poY + h);
+            Riscduino_MCUFRIEND_kbv::setCursor(poX, poY + h);
             print(string);
             return w;
 //		    return drawString(string, dX, poY, idx);

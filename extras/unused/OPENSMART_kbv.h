@@ -6,7 +6,7 @@
 
 #ifndef OPENSMART_KBV_H_
 #define OPENSMART_KBV_H_   101                //version number
-#define MCUFRIEND_KBV_H_   OPENSMART_KBV_H_   //guard against any MCUFRIEND_kbv.h include
+#define RISCDUINO_MCUFRIEND_KBV_H_   OPENSMART_KBV_H_   //guard against any MCUFRIEND_kbv.h include
 
 //#define USE_SERIAL
 

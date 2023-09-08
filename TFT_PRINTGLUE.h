@@ -1,7 +1,7 @@
 // NOT FOR PUBLIC USE
 
 //#include <Adafruit_GFX.h>    // Core graphics library
-#include <MCUFRIEND_kbv.h> // Hardware-specific library
+#include <Riscduino_MCUFRIEND_kbv.h> // Hardware-specific library
 #if !defined(AVR)
 #include <avr/dtostrf.h>
 #endif
@@ -42,7 +42,7 @@ const GFXfont *Fonts[] = {
 #define C_BASELINE 10 // Centre character baseline
 #define R_BASELINE 11 // Right character baseline
 
-class TFT_PRINTGLUE : public MCUFRIEND_kbv
+class TFT_PRINTGLUE : public Riscduino_MCUFRIEND_kbv
 {
     public:
         TFT_PRINTGLUE() {}
@@ -51,41 +51,41 @@ class TFT_PRINTGLUE : public MCUFRIEND_kbv
         }
         void init(void)
         {
-            MCUFRIEND_kbv::reset();
-            _ID = MCUFRIEND_kbv::readID();
+            Riscduino_MCUFRIEND_kbv::reset();
+            _ID = Riscduino_MCUFRIEND_kbv::readID();
             if (_ID == 0xD3D3) _ID = 0x9486;
-            MCUFRIEND_kbv::begin(_ID);
-            MCUFRIEND_kbv::setRotation(1);
+            Riscduino_MCUFRIEND_kbv::begin(_ID);
+            Riscduino_MCUFRIEND_kbv::setRotation(1);
             _first = true;
             _datum = TL_DATUM;
         }
         void setWindow(int16_t x0, int16_t y0, int16_t x1, int16_t y1)
         {
-            MCUFRIEND_kbv::setAddrWindow(x0, y0, x1, y1);
+            Riscduino_MCUFRIEND_kbv::setAddrWindow(x0, y0, x1, y1);
             _first = true;
         }
 
         void pushColors(uint8_t *data, uint16_t len)
         {
-            MCUFRIEND_kbv::pushColors((uint8_t*)data, len, _first);
+            Riscduino_MCUFRIEND_kbv::pushColors((uint8_t*)data, len, _first);
             _first = false;
         }
 
         void pushColors(uint16_t *data, uint8_t len)
         {
-            MCUFRIEND_kbv::pushColors((uint16_t*)data, len, _first);
+            Riscduino_MCUFRIEND_kbv::pushColors((uint16_t*)data, len, _first);
             _first = false;
         }
 
         void pushColors(uint16_t *data, uint16_t len, int first)
         {
-            MCUFRIEND_kbv::pushColors((uint16_t*)data, len, first);
+            Riscduino_MCUFRIEND_kbv::pushColors((uint16_t*)data, len, first);
         }
 
         void pushColor(uint16_t color)
         {
             uint16_t c = color;
-            MCUFRIEND_kbv::pushColors(&c, 1, _first);
+            Riscduino_MCUFRIEND_kbv::pushColors(&c, 1, _first);
             _first = false;
         }
 
@@ -93,7 +93,7 @@ class TFT_PRINTGLUE : public MCUFRIEND_kbv
         {
             if (idx == 255) idx = _font; //use current font
             setTextFont(idx);
-            MCUFRIEND_kbv::setCursor(x, y + _ydatum);
+            Riscduino_MCUFRIEND_kbv::setCursor(x, y + _ydatum);
         }
 
         void setFreeFont(const GFXfont *pfont)
@@ -101,10 +101,10 @@ class TFT_PRINTGLUE : public MCUFRIEND_kbv
             _font = 1;
             _ascent = 7;
             _descent = 1;
-            MCUFRIEND_kbv::setFont(_pfont = pfont);
+            Riscduino_MCUFRIEND_kbv::setFont(_pfont = pfont);
             if (pfont != NULL) {
                 int16_t x = 0, y = 0, x1, y1 = 0, x2, y2 = 0;
-                MCUFRIEND_kbv::setTextSize(1);
+                Riscduino_MCUFRIEND_kbv::setTextSize(1);
                 charBounds('0', &x, &y, &x1, &y1, &x2, &y2);
                 _ascent = y2 - y1;    //yAdvance
                 GFXfont f;
@@ -158,7 +158,7 @@ class TFT_PRINTGLUE : public MCUFRIEND_kbv
                     break;
             }
             if (textcolor != textbgcolor) fillRect(x1, poY + _ydatum - _ascent, xpad, _ascent + _descent, textbgcolor);
-            MCUFRIEND_kbv::setCursor(poX, poY + _ydatum);
+            Riscduino_MCUFRIEND_kbv::setCursor(poX, poY + _ydatum);
             print(string);
             return w;
         }

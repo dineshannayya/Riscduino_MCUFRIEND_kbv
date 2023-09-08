@@ -22,7 +22,7 @@
 
 #if 0
 //################################### UNO ##############################
-#elif defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328PB__)       //regular UNO shield on UNO
+#elif defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328PB__)  || defined(RISCDUINO_UNO)     //regular UNO shield on UNO
 //LCD pins  |D7 |D6 |D5 |D4 |D3 |D2 |D1 |D0 | |RD |WR |RS |CS |RST|
 //AVR   pin |PD7|PD6|PD5|PD4|PD3|PD2|PB1|PB0| |PC0|PC1|PC2|PC3|PC4|
 //UNO pins  |7  |6  |5  |4  |3  |2  |9  |8  | |A0 |A1 |A2 |A3 |A4 |
@@ -50,7 +50,12 @@
 
 #define PIN_LOW(p, b)        (p) &= ~(1<<(b))
 #define PIN_HIGH(p, b)       (p) |= (1<<(b))
+
+#ifdef RISCDUINO_UNO // RISCDUINO DIR and OUTPUT Data register are 12 location apart
+#define PIN_OUTPUT(p, b)     *(&p-12) |= (1<<(b))
+#else
 #define PIN_OUTPUT(p, b)     *(&p-1) |= (1<<(b))
+#endif
 
 //################################### MEGA2560 ##############################
 #elif defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1280__)       //regular UNO shield on MEGA2560

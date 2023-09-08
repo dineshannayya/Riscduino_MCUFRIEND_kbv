@@ -1,8 +1,8 @@
 #if 1
 
 #include <Adafruit_GFX.h>
-#include <MCUFRIEND_kbv.h>
-MCUFRIEND_kbv tft;
+#include <Riscduino_MCUFRIEND_kbv.h>
+Riscduino_MCUFRIEND_kbv tft;
 #include <TouchScreen.h>
 #define MINPRESSURE 200
 #define MAXPRESSURE 1000

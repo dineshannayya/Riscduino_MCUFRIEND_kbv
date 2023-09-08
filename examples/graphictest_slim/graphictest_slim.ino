@@ -1,6 +1,6 @@
 #include <SPI.h>          // f.k. for Arduino-1.5.2
 #include "Adafruit_GFX.h"// Hardware-specific library
-#include <MCUFRIEND_kbv.h>
+#include <Riscduino_MCUFRIEND_kbv.h>
 
 /*
  * an empty Leonardo sketch uses 3.5kB + 4kB bootloader 

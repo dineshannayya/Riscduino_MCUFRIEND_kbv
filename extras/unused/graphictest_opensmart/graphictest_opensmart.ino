@@ -97,7 +97,7 @@ void setup(void) {
     tft.begin(ID);
 }
 
-#if defined(MCUFRIEND_KBV_H_)
+#if defined(RISCDUINO_MCUFRIEND_KBV_H_)
 uint16_t scrollbuf[320];    // my biggest screen is 320x480
 #define READGRAM(x, y, buf, w, h)  tft.readGRAM(x, y, buf, w, h)
 #else
@@ -177,7 +177,7 @@ void loop(void) {
             tft.drawPixel(0, 0, YELLOW);
             pixel = tft.readPixel(0, 0);
             tft.setTextSize((ht > 160) ? 2 : 1); //for messages
-#if defined(MCUFRIEND_KBV_H_)
+#if defined(RISCDUINO_MCUFRIEND_KBV_H_)
 #if 1
             extern const uint8_t penguin[];
             tft.setAddrWindow(wid - 40 - 40, 20 + 0, wid - 1 - 40, 20 + 39);
@@ -286,10 +286,10 @@ void runtests(void)
     uint16_t wid = tft.width();
     if (wid > 176) {
         tft.setTextSize(2);
-#if defined(MCUFRIEND_KBV_H_)
+#if defined(RISCDUINO_MCUFRIEND_KBV_H_)
         tft.print("MCUFRIEND ");
-#if MCUFRIEND_KBV_H_ != 0
-        tft.print(0.01 * MCUFRIEND_KBV_H_, 2);
+#if RISCDUINO_MCUFRIEND_KBV_H_ != 0
+        tft.print(0.01 * RISCDUINO_MCUFRIEND_KBV_H_, 2);
 #else
         tft.print("for");
 #endif

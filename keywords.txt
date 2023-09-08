@@ -6,7 +6,7 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-MCUFRIEND_kbv	KEYWORD1
+Riscduino_MCUFRIEND_kbv	KEYWORD1
 #UTFTGLUE	KEYWORD1
 
 #######################################

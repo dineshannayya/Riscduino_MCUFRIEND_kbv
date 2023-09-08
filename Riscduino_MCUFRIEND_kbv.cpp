@@ -26,7 +26,7 @@
 #define SUPPORT_B509_7793         //R61509, ST7793 +244 bytes
 //#define OFFSET_9327 32            //costs about 103 bytes, 0.08s
 
-#include "MCUFRIEND_kbv.h"
+#include "Riscduino_MCUFRIEND_kbv.h"
 #if defined(USE_SERIAL)
 #include "utility/mcufriend_serial.h"
  //uint8_t running;
@@ -59,7 +59,7 @@
 #define USING_16BIT_BUS 0
 #endif
 
-MCUFRIEND_kbv::MCUFRIEND_kbv(int CS, int RS, int WR, int RD, int _RST):Adafruit_GFX(240, 320)
+Riscduino_MCUFRIEND_kbv::Riscduino_MCUFRIEND_kbv(int CS, int RS, int WR, int RD, int _RST):Adafruit_GFX(240, 320)
 {
     // we can not access GPIO pins until AHB has been enabled.
 }
@@ -89,7 +89,7 @@ static void write24(uint16_t color) {
     write8(b);
 }
 
-void MCUFRIEND_kbv::reset(void)
+void Riscduino_MCUFRIEND_kbv::reset(void)
 {
     done_reset = 1;
     setWriteDir();
@@ -114,7 +114,7 @@ static void writecmddata(uint16_t cmd, uint16_t dat)
     CS_IDLE;
 }
 
-void MCUFRIEND_kbv::WriteCmdData(uint16_t cmd, uint16_t dat) { writecmddata(cmd, dat); }
+void Riscduino_MCUFRIEND_kbv::WriteCmdData(uint16_t cmd, uint16_t dat) { writecmddata(cmd, dat); }
 
 static void WriteCmdParamN(uint16_t cmd, int8_t N, uint8_t * block)
 {
@@ -139,7 +139,7 @@ static inline void WriteCmdParam4(uint8_t cmd, uint8_t d1, uint8_t d2, uint8_t d
 }
 
 //#define WriteCmdParam4(cmd, d1, d2, d3, d4) {uint8_t d[4];d[0] = d1, d[1] = d2, d[2] = d3, d[3] = d4;WriteCmdParamN(cmd, 4, d);}
-void MCUFRIEND_kbv::pushCommand(uint16_t cmd, uint8_t * block, int8_t N) { WriteCmdParamN(cmd, N, block); }
+void Riscduino_MCUFRIEND_kbv::pushCommand(uint16_t cmd, uint8_t * block, int8_t N) { WriteCmdParamN(cmd, N, block); }
 
 static uint16_t read16bits(void)
 {
@@ -159,7 +159,7 @@ static uint16_t read16bits(void)
     return (ret << 8) | lo;
 }
 
-uint16_t MCUFRIEND_kbv::readReg(uint16_t reg, int8_t index)
+uint16_t Riscduino_MCUFRIEND_kbv::readReg(uint16_t reg, int8_t index)
 {
     uint16_t ret;
     uint8_t lo;
@@ -177,14 +177,14 @@ uint16_t MCUFRIEND_kbv::readReg(uint16_t reg, int8_t index)
     return ret;
 }
 
-uint32_t MCUFRIEND_kbv::readReg32(uint16_t reg)
+uint32_t Riscduino_MCUFRIEND_kbv::readReg32(uint16_t reg)
 {
     uint16_t h = readReg(reg, 0);
     uint16_t l = readReg(reg, 1);
     return ((uint32_t) h << 16) | (l);
 }
 
-uint32_t MCUFRIEND_kbv::readReg40(uint16_t reg)
+uint32_t Riscduino_MCUFRIEND_kbv::readReg40(uint16_t reg)
 {
     uint16_t h = readReg(reg, 0);
     uint16_t m = readReg(reg, 1);
@@ -192,7 +192,7 @@ uint32_t MCUFRIEND_kbv::readReg40(uint16_t reg)
     return ((uint32_t) h << 24) | (m << 8) | (l >> 8);
 }
 
-uint16_t MCUFRIEND_kbv::readID(void)
+uint16_t Riscduino_MCUFRIEND_kbv::readID(void)
 {
     uint16_t ret, ret2;
     uint8_t msb;
@@ -293,7 +293,7 @@ uint16_t MCUFRIEND_kbv::readID(void)
 }
 
  // independent cursor and window registers.   S6D0154, ST7781 increments.  ILI92320/5 do not.  
-int16_t MCUFRIEND_kbv::readGRAM(int16_t x, int16_t y, uint16_t * block, int16_t w, int16_t h)
+int16_t Riscduino_MCUFRIEND_kbv::readGRAM(int16_t x, int16_t y, uint16_t * block, int16_t w, int16_t h)
 {
     uint16_t ret, dummy, _MR = _MW;
     int16_t n = w * h, row = 0, col = 0;
@@ -356,7 +356,7 @@ int16_t MCUFRIEND_kbv::readGRAM(int16_t x, int16_t y, uint16_t * block, int16_t 
     return 0;
 }
 
-void MCUFRIEND_kbv::setRotation(uint8_t r)
+void Riscduino_MCUFRIEND_kbv::setRotation(uint8_t r)
 {
     uint16_t GS, SS_v, ORG, REV = _lcd_rev, NL;
     uint8_t val, d[3];
@@ -528,7 +528,7 @@ void MCUFRIEND_kbv::setRotation(uint8_t r)
     vertScroll(0, HEIGHT, 0);   //reset scrolling after a rotation
 }
 
-void MCUFRIEND_kbv::drawPixel(int16_t x, int16_t y, uint16_t color)
+void Riscduino_MCUFRIEND_kbv::drawPixel(int16_t x, int16_t y, uint16_t color)
 {
     // MCUFRIEND just plots at edge if you try to write outside of the box:
     if (x < 0 || y < 0 || x >= width() || y >= height())
@@ -542,7 +542,7 @@ void MCUFRIEND_kbv::drawPixel(int16_t x, int16_t y, uint16_t color)
     WriteCmdData(_MW, color);
 }
 
-void MCUFRIEND_kbv::setAddrWindow(int16_t x, int16_t y, int16_t x1, int16_t y1)
+void Riscduino_MCUFRIEND_kbv::setAddrWindow(int16_t x, int16_t y, int16_t x1, int16_t y1)
 {
 #if defined(OFFSET_9327)
 	if (_lcd_ID == 0x9327) {
@@ -585,7 +585,7 @@ void MCUFRIEND_kbv::setAddrWindow(int16_t x, int16_t y, int16_t x1, int16_t y1)
     }
 }
 
-void MCUFRIEND_kbv::fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color)
+void Riscduino_MCUFRIEND_kbv::fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color)
 {
     int16_t end;
 #if defined(SUPPORT_9488_555)
@@ -710,20 +710,20 @@ static void pushColors_any(uint16_t cmd, uint8_t * block, int16_t n, bool first,
     CS_IDLE;
 }
 
-void MCUFRIEND_kbv::pushColors(uint16_t * block, int16_t n, bool first)
+void Riscduino_MCUFRIEND_kbv::pushColors(uint16_t * block, int16_t n, bool first)
 {
     pushColors_any(_MW, (uint8_t *)block, n, first, 0);
 }
-void MCUFRIEND_kbv::pushColors(uint8_t * block, int16_t n, bool first)
+void Riscduino_MCUFRIEND_kbv::pushColors(uint8_t * block, int16_t n, bool first)
 {
     pushColors_any(_MW, (uint8_t *)block, n, first, 2);   //regular bigend
 }
-void MCUFRIEND_kbv::pushColors(const uint8_t * block, int16_t n, bool first, bool bigend)
+void Riscduino_MCUFRIEND_kbv::pushColors(const uint8_t * block, int16_t n, bool first, bool bigend)
 {
     pushColors_any(_MW, (uint8_t *)block, n, first, bigend ? 3 : 1);
 }
 
-void MCUFRIEND_kbv::vertScroll(int16_t top, int16_t scrollines, int16_t offset)
+void Riscduino_MCUFRIEND_kbv::vertScroll(int16_t top, int16_t scrollines, int16_t offset)
 {
 #if defined(OFFSET_9327)
 	if (_lcd_ID == 0x9327) {
@@ -813,7 +813,7 @@ void MCUFRIEND_kbv::vertScroll(int16_t top, int16_t scrollines, int16_t offset)
     }
 }
 
-void MCUFRIEND_kbv::invertDisplay(bool i)
+void Riscduino_MCUFRIEND_kbv::invertDisplay(bool i)
 {
     uint8_t val;
     _lcd_rev = ((_lcd_capable & REV_SCREEN) != 0) ^ i;
@@ -906,7 +906,7 @@ static void init_table16(const void *table, int16_t size)
     }
 }
 
-void MCUFRIEND_kbv::begin(uint16_t ID)
+void Riscduino_MCUFRIEND_kbv::begin(uint16_t ID)
 {
     int16_t *p16;               //so we can "write" to a const protected variable.
     const uint8_t *table8_ads = NULL;

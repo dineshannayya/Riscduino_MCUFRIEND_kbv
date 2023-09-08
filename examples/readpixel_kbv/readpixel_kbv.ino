@@ -5,8 +5,8 @@
 #define LCD_RESET A4 // Can alternately just connect to Arduino's reset pin
 
 #include <Adafruit_GFX.h> // Hardware-specific library
-#include <MCUFRIEND_kbv.h>
-MCUFRIEND_kbv tft;
+#include <Riscduino_MCUFRIEND_kbv.h>
+Riscduino_MCUFRIEND_kbv tft;
 
 //#include <Adafruit_TFTLCD.h> // Hardware-specific library
 //Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
@@ -60,7 +60,7 @@ void colordump(uint16_t x, uint16_t y)
         tft.print(buf);
         dirty = 1;
         for (i = 0; i < wid; i++) {
-#if 1 && defined(MCUFRIEND_KBV_H_)        
+#if 1 && defined(RISCDUINO_MCUFRIEND_KBV_H_)        
             if (dirty) tft.readGRAM(x, y + j, pixels, wid, 1);
             dirty = 0;
             pixel = pixels[i];

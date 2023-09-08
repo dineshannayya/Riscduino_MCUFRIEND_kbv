@@ -1,7 +1,7 @@
-#include "MCUFRIEND_kbv.h"
-MCUFRIEND_kbv tft;
+#include "Riscduino_MCUFRIEND_kbv.h"
+Riscduino_MCUFRIEND_kbv tft;
 
-#define LOWFLASH (defined(__AVR_ATmega328P__) && defined(MCUFRIEND_KBV_H_))
+#define LOWFLASH (defined(__AVR_ATmega328P__) && defined(RISCDUINO_MCUFRIEND_KBV_H_))
 
 #include "bitmap_mono.h"
 #include "bitmap_RGB.h"

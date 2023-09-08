@@ -30,8 +30,8 @@ SdFat SD;
 #define SD_CS SdSpiConfig(10, DEDICATED_SPI, SD_SCK_MHZ(0), &softSpi)
 
 #include <Adafruit_GFX.h>    // Hardware-specific library
-#include <MCUFRIEND_kbv.h>
-MCUFRIEND_kbv tft;
+#include <Riscduino_MCUFRIEND_kbv.h>
+Riscduino_MCUFRIEND_kbv tft;
 
 #define NAMEMATCH ""         // "" matches any name
 //#define NAMEMATCH "tiger"    // *tiger*.bmp

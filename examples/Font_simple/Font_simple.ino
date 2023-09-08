@@ -1,6 +1,6 @@
 #include <Adafruit_GFX.h>    // Core graphics library
-#include <MCUFRIEND_kbv.h>   // Hardware-specific library
-MCUFRIEND_kbv tft;
+#include <Riscduino_MCUFRIEND_kbv.h>   // Hardware-specific library
+Riscduino_MCUFRIEND_kbv tft;
 
 #include <Fonts/FreeSans9pt7b.h>
 #include <Fonts/FreeSans12pt7b.h>
